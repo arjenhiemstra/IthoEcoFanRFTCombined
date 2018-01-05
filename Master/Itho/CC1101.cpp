@@ -114,7 +114,8 @@ uint8_t CC1101::readRegisterMedian3(uint8_t address)
 This issue affects the following registers: SPI status byte (fields STATE and FIFO_BYTES_AVAILABLE), 
 FREQEST or RSSI while the receiver is active, MARCSTATE at any time other than an IDLE radio state, 
 RXBYTES when receiving or TXBYTES when transmitting, and WORTIME1/WORTIME0 at any time.*/
-uint8_t CC1101::readRegisterWithSyncProblem(uint8_t address, uint8_t registerType)
+//uint8_t CC1101::readRegisterWithSyncProblem(uint8_t address, uint8_t registerType)
+uint8_t /* ICACHE_RAM_ATTR */ CC1101::readRegisterWithSyncProblem(uint8_t address, uint8_t registerType)
 {
 	uint8_t value1, value2;	
 	
@@ -211,7 +212,7 @@ uint8_t CC1101::receiveData(CC1101Packet* packet, uint8_t length)
 }
 
 //This function is able to send packets bigger then the FIFO size.
-bool CC1101::sendData(CC1101Packet *packet)
+void CC1101::sendData(CC1101Packet *packet)
 {
 	uint8_t index = 0;
 	uint8_t txStatus, MarcState;
@@ -266,7 +267,7 @@ bool CC1101::sendData(CC1101Packet *packet)
 	do
 	{
 		MarcState = (readRegisterWithSyncProblem(CC1101_MARCSTATE, CC1101_STATUS_REGISTER) & CC1101_BITS_MARCSTATE);
-		if (MarcState == CC1101_MARCSTATE_TXFIFO_UNDERFLOW) Serial.print("TXFIFO_UNDERFLOW occured in sendData() \n");
+//		if (MarcState == CC1101_MARCSTATE_TXFIFO_UNDERFLOW) Serial.print(F("TXFIFO_UNDERFLOW occured in sendData() \n"));
 	}
   	while((MarcState != CC1101_MARCSTATE_IDLE) && (MarcState != CC1101_MARCSTATE_TXFIFO_UNDERFLOW));
 }
