@@ -61,7 +61,6 @@ void setup(void) {
 void loop(void) {
   // do whatever you want, check (and reset) the ITHOhasPacket flag whenever you like
   if (ITHOhasPacket) {
-    ITHOhasPacket = false; // reset the flag
     showPacket();
   }
 }
